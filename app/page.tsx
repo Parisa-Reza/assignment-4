@@ -1,16 +1,5 @@
-
-import Hero from "@/components/layout/Hero";
-import FeaturedProducts from "@/components/product/FeaturedProducts";
-import Categories from "@/components/product/Categories";
-import ProductGrid from "@/components/product/ProductGrid";
+import HomeProductSections from "@/components/product/HomeProductSections";
 
 export default function Home() {
-  return (
-    <main>
-      <Hero />
-      <FeaturedProducts />
-      <Categories />
-      <ProductGrid />
-    </main>
-  );
+  return <HomeProductSections />;
 }

@@ -3,22 +3,17 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 export type Product = {
     id: number;
     title: string;
-    slug?: string;
     price: number;
     description?: string;
     category?: Category;
     images: string[];
-    creationAt?: string;
-    updatedAt?: string;
+ 
 };
 
 export type Category = {
     id: number;
     name: string;
-    slug?: string;
     image: string;
-    creationAt?: string;
-    updatedAt?: string;
 };
 
 export type SortOption = "price-low" | "price-high";
@@ -26,6 +21,7 @@ export type SortOption = "price-low" | "price-high";
 type ProductState = {
     featuredItems: Product[];
     items: Product[];
+    searchItems: Product[];
     categories: Category[];
     selectedCategoryId: number | null;
     sortBy: SortOption;
@@ -34,25 +30,31 @@ type ProductState = {
     hasNextPage: boolean;
     wishlistIds: number[];
     loading: boolean;
+    searchLoading: boolean;
     featuredLoading: boolean;
     categoriesLoading: boolean;
     error: string | null;
+    searchError: string | null;
     categoriesError: string | null;
 };
 
 const initialState: ProductState = {
     featuredItems: [],
     items: [],
+    searchItems: [],
     categories: [],
     selectedCategoryId: null,
+    sortBy: "price-low",
     page: 1,
     limit: 10,
     hasNextPage: false,
     wishlistIds: [],
     loading: false,
+    searchLoading: false,
     featuredLoading: false,
     categoriesLoading: false,
     error: null,
+    searchError: null,
     categoriesError: null,
 };
 
@@ -68,6 +70,7 @@ async function getJson<T>(url: string): Promise<T> {
     return (await res.json()) as T;
 }
 
+// first 4 products in as featured products
 export const fetchFeaturedProducts = createAsyncThunk(
     "products/fetchFeatured",
     async () => {
@@ -76,7 +79,7 @@ export const fetchFeaturedProducts = createAsyncThunk(
 );
 
 export const fetchProducts = createAsyncThunk(
-    "products/fetch",
+    "products/fetch", // "sliceName/actionName" here
     async ({
         page,
         limit,
@@ -96,6 +99,13 @@ export const fetchProducts = createAsyncThunk(
             products,
             hasNextPage: products.length === limit,
         };
+    }
+);
+
+export const fetchSearchProducts = createAsyncThunk(
+    "products/fetchSearch",
+    async () => {
+        return getJson<Product[]>(`${API_BASE_URL}/products`);
     }
 );
 
@@ -168,6 +178,19 @@ const productSlice = createSlice({
             .addCase(fetchProducts.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message ?? "Unable to load products.";
+            })
+            .addCase(fetchSearchProducts.pending, (state) => {
+                state.searchLoading = true;
+                state.searchError = null;
+            })
+            .addCase(fetchSearchProducts.fulfilled, (state, action) => {
+                state.searchItems = action.payload;
+                state.searchLoading = false;
+            })
+            .addCase(fetchSearchProducts.rejected, (state, action) => {
+                state.searchLoading = false;
+                state.searchError =
+                    action.error.message ?? "Unable to search products.";
             })
             .addCase(fetchCategories.pending, (state) => {
                 state.categoriesLoading = true;

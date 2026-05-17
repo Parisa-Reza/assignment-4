@@ -17,9 +17,6 @@ export default function FeaturedProducts() {
         <section className="mx-auto max-w-6xl px-4 py-8">
             <div className="mb-5">
                 <h2 className="text-2xl font-bold">Featured Products</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Four quick picks from the latest catalog.
-                </p>
             </div>
 
             {featuredLoading && (

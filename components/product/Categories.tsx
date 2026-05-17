@@ -20,9 +20,6 @@ export default function Categories() {
         <section className="mx-auto max-w-6xl px-4 py-8">
             <div className="mb-4">
                 <h2 className="text-2xl font-bold">Categories</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Choose a category to filter the product grid.
-                </p>
             </div>
 
             <div className="flex gap-3 flex-wrap">

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { getProductImage } from "@/lib/product-utils";
 import { toggleWishlist, type Product } from "@/store/product-slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -16,7 +16,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
     const dispatch = useAppDispatch();
     const wishlistIds = useAppSelector((state) => state.products.wishlistIds);
     const isWishlisted = wishlistIds.includes(product.id);
-   
 
     return (
         <article className="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-gray-800 dark:bg-neutral-950">
@@ -58,7 +57,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
 
                 <div className="flex items-center justify-between gap-3">
                     <p className="text-lg font-bold ">${product.price}</p>
-                   
                 </div>
             </div>
         </article>
