@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import {FaSearch} from "react-icons/fa";
+import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { getCartItemCount } from "@/lib/cart-utils";
 import { toggleTheme, setSearchQuery } from "@/store/ui-slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
@@ -10,6 +11,9 @@ export default function Navbar() {
     const dispatch = useAppDispatch();
     const theme = useAppSelector((state) => state.ui.theme);
     const searchQuery = useAppSelector((state) => state.ui.searchQuery);
+    const cartItemCount = useAppSelector((state) =>
+        getCartItemCount(state.cart.items)
+    );
     const [searchText, setSearchText] = useState(searchQuery);
 
     //debouncing
@@ -40,6 +44,18 @@ export default function Navbar() {
                 </label>
 
                 <div className="flex items-center gap-3">
+                    <Link
+                        href="/cart"
+                        aria-label={`Cart with ${cartItemCount} items`}
+                        className="relative grid h-10 w-10 place-items-center rounded-md border border-gray-200 dark:border-gray-800"
+                    >
+                        <FaShoppingCart aria-hidden="true" />
+                        {cartItemCount > 0 && (
+                            <span className="absolute -right-2 -top-2 grid h-5 min-w-5 place-items-center rounded-full bg-black px-1 text-xs font-bold text-white dark:bg-white dark:text-black">
+                                {cartItemCount}
+                            </span>
+                        )}
+                    </Link>
                     <button
                         type="button"
                         onClick={() => dispatch(toggleTheme())}

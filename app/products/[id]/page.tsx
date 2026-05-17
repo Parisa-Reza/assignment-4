@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 import RelatedProducts from "@/components/product/RelatedProducts";
 import { getProductImage } from "@/lib/product-utils";
 import type { Product } from "@/store/product-slice";
@@ -84,6 +85,8 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
                     <p className="leading-7 text-gray-600 dark:text-gray-300">
                         {product.description ?? "No description is available for this product."}
                     </p>
+
+                    <AddToCartButton product={product} className="w-full sm:w-auto" />
 
                     <div className="grid gap-3 rounded-lg border border-gray-200 p-4 text-sm dark:border-gray-800 sm:grid-cols-3">
                         <div>

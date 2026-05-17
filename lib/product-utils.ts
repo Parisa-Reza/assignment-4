@@ -10,15 +10,6 @@ export function getProductImage(product: Product): string {
     return firstImage.replaceAll("[", "").replaceAll("]", "").replaceAll('"', "");
 }
 
-// export function getProductRating(productId: number) {
-//     const rating = 3.8 + ((productId % 12) / 10);
-//     const reviewCount = 18 + ((productId * 7) % 180);
-
-//     return {
-//         rating: Math.min(5, Number(rating.toFixed(1))),
-//         reviewCount,
-//     };
-// }
 
 export function sortProducts(products: Product[], sortBy: string) {
     const nextProducts = [...products];

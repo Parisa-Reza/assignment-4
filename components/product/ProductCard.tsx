@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 import { getProductImage } from "@/lib/product-utils";
 import { toggleWishlist, type Product } from "@/store/product-slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -55,8 +56,9 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                     </button>
                 </div>
 
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="text-lg font-bold ">${product.price}</p>
+                    <AddToCartButton product={product} className="px-3 py-2" />
                 </div>
             </div>
         </article>

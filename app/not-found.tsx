@@ -1,15 +1,3 @@
-// import Link from "next/link";
-
-// export default function NotFound() {
-//   return (
-//     <main style={{ padding: "2rem", textAlign: "center" }}>
-//       <h1>404</h1>
-//       <p>We could not find that page.</p>
-//       <Link href="/">Go home</Link>
-//     </main>
-//   );
-// }
-
 import Link from "next/link";
 
 export default function NotFound() {
