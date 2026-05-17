@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -34,9 +36,5 @@ button {
 
 html.dark input {
   background-color: #1a1a1a;
-  color: var(--foreground);
-}
-
-html.dark button {
   color: var(--foreground);
 }

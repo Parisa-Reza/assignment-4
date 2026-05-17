@@ -1,44 +1,45 @@
 "use client";
 
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "@/store/product-slice";
-import { RootState } from "@/store/store";
+import ProductCard from "@/components/product/ProductCard";
+import { fetchFeaturedProducts } from "@/store/product-slice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 export default function FeaturedProducts() {
-    const dispatch = useDispatch();
-    const { items, loading } = useSelector(
-        (state: RootState) => state.products
-    );
+    const dispatch = useAppDispatch();
+    const { featuredItems, featuredLoading } = useAppSelector((state) => state.products);
 
     useEffect(() => {
-        dispatch(fetchProducts() as any);
+        dispatch(fetchFeaturedProducts());
     }, [dispatch]);
 
-    if (loading) return <p className="p-6">Loading...</p>;
-
     return (
-        <section className="p-6">
-            <h2 className="text-xl font-bold mb-4">Featured Products</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {items.map((product) => (
-                    <div
-                        key={product.id}
-                        className="border rounded-lg p-4 shadow"
-                    >
-                        <img
-                            src={product.images?.[0]}
-                            className="w-full h-40 object-cover rounded"
-                        />
-                        <h3 className="font-semibold mt-2">
-                            {product.title}
-                        </h3>
-                        <p className="text-gray-600">${product.price}</p>
-
-                    </div>
-                ))}
+        <section className="mx-auto max-w-6xl px-4 py-8">
+            <div className="mb-5">
+                <h2 className="text-2xl font-bold">Featured Products</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                    Four quick picks from the latest catalog.
+                </p>
             </div>
+
+            {featuredLoading && (
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                        <div
+                            key={index}
+                            className="h-72 animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-900"
+                        />
+                    ))}
+                </div>
+            )}
+
+            {!featuredLoading && (
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    {featuredItems.slice(0, 4).map((product, index) => (
+                        <ProductCard key={product.id} product={product} priority={index === 0} />
+                    ))}
+                </div>
+            )}
         </section>
     );
 }
