@@ -153,6 +153,9 @@ const productSlice = createSlice({
                 state.wishlistIds.push(productId);
             }
         },
+        setWishlistIds(state, action: PayloadAction<number[]>) {
+            state.wishlistIds = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -207,6 +210,6 @@ const productSlice = createSlice({
     },
 });
 
-export const { setSelectedCategory, setSortBy, setPage, toggleWishlist } =
+export const { setSelectedCategory, setSortBy, setPage, toggleWishlist, setWishlistIds } =
     productSlice.actions;
 export default productSlice.reducer;
