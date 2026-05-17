@@ -22,6 +22,7 @@ type ProductState = {
     featuredItems: Product[];
     items: Product[];
     searchItems: Product[];
+    relatedItems: Product[];
     categories: Category[];
     selectedCategoryId: number | null;
     sortBy: SortOption;
@@ -31,10 +32,12 @@ type ProductState = {
     wishlistIds: number[];
     loading: boolean;
     searchLoading: boolean;
+    relatedLoading: boolean;
     featuredLoading: boolean;
     categoriesLoading: boolean;
     error: string | null;
     searchError: string | null;
+    relatedError: string | null;
     categoriesError: string | null;
 };
 
@@ -42,6 +45,7 @@ const initialState: ProductState = {
     featuredItems: [],
     items: [],
     searchItems: [],
+    relatedItems: [],
     categories: [],
     selectedCategoryId: null,
     sortBy: "price-low",
@@ -51,10 +55,12 @@ const initialState: ProductState = {
     wishlistIds: [],
     loading: false,
     searchLoading: false,
+    relatedLoading: false,
     featuredLoading: false,
     categoriesLoading: false,
     error: null,
     searchError: null,
+    relatedError: null,
     categoriesError: null,
 };
 
@@ -106,6 +112,13 @@ export const fetchSearchProducts = createAsyncThunk(
     "products/fetchSearch",
     async () => {
         return getJson<Product[]>(`${API_BASE_URL}/products`);
+    }
+);
+
+export const fetchRelatedProducts = createAsyncThunk(
+    "products/fetchRelated",
+    async (categoryId: number) => {
+        return getJson<Product[]>(`${API_BASE_URL}/categories/${categoryId}/products`);
     }
 );
 
@@ -194,6 +207,19 @@ const productSlice = createSlice({
                 state.searchLoading = false;
                 state.searchError =
                     action.error.message ?? "Unable to search products.";
+            })
+            .addCase(fetchRelatedProducts.pending, (state) => {
+                state.relatedLoading = true;
+                state.relatedError = null;
+            })
+            .addCase(fetchRelatedProducts.fulfilled, (state, action) => {
+                state.relatedItems = action.payload;
+                state.relatedLoading = false;
+            })
+            .addCase(fetchRelatedProducts.rejected, (state, action) => {
+                state.relatedLoading = false;
+                state.relatedError =
+                    action.error.message ?? "Unable to load related products.";
             })
             .addCase(fetchCategories.pending, (state) => {
                 state.categoriesLoading = true;

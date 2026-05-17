@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import RelatedProducts from "@/components/product/RelatedProducts";
 import { getProductImage } from "@/lib/product-utils";
 import type { Product } from "@/store/product-slice";
 
@@ -102,6 +103,11 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
 
                 </section>
             </div>
+
+            <RelatedProducts
+                categoryId={product.category?.id}
+                currentProductId={product.id}
+            />
         </main>
     );
 }
