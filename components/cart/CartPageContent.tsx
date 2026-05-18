@@ -22,7 +22,7 @@ export default function CartPageContent() {
                 </p>
                 <Link
                     href="/"
-                    className="mt-6 inline-flex rounded-md bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                    className="mt-6 inline-flex rounded-md bg-pink-600 px-4 py-2 text-sm font-semibold text-white hover:bg-pink-700 dark:bg-pink-200 dark:text-black dark:hover:bg-pink-300"
                 >
                     Shop products
                 </Link>

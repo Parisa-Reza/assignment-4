@@ -20,9 +20,9 @@ export default function AddToCartButton({
         <button
             type="button"
             onClick={() => dispatch(addToCart(product))}
-            className={`inline-flex items-center justify-center gap-2 rounded-md bg-black px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ${className}`}
+            className={`inline-flex items-center justify-center gap-2 rounded-md bg-pink-600 px-4 py-2 text-sm font-semibold text-white hover:bg-pink-700 dark:bg-pink-200 dark:text-black dark:hover:bg-pink-300 ${className}`}
         >
-            <FaCartPlus aria-hidden="true" />
+            <FaCartPlus className="text-pink-200 dark:text-pink-600" aria-hidden="true" />
             Add to cart
         </button>
     );

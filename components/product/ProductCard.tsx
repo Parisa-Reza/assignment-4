@@ -52,7 +52,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                         onClick={() => dispatch(toggleWishlist(product.id))}
                         className="rounded-full border border-gray-200 p-2 text-gray-700 hover:bg-gray-100 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-neutral-900"
                     >
-                        {isWishlisted ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+                        {isWishlisted ? <FaHeart className="text-red-500" /> : <FaRegHeart className="text-pink-600 dark:text-pink-200" />}
                     </button>
                 </div>
 

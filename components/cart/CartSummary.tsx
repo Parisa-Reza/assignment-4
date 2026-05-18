@@ -33,7 +33,7 @@ export default function CartSummary({
             {showCheckoutLink && (
                 <Link
                     href={items.length ? checkoutHref : "/"}
-                    className="mt-5 inline-flex w-full justify-center rounded-md bg-black px-4 py-3 text-sm font-semibold text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                    className="mt-5 inline-flex w-full justify-center rounded-md bg-pink-600 px-4 py-3 text-sm font-semibold text-white hover:bg-pink-700 dark:bg-pink-200 dark:text-black dark:hover:bg-pink-300"
                 >
                     {items.length ? "Checkout" : "Continue shopping"}
                 </Link>

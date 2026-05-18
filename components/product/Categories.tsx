@@ -26,11 +26,10 @@ export default function Categories() {
                 <button
                     type="button"
                     onClick={() => dispatch(setSelectedCategory(null))}
-                    className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-                        selectedCategoryId === null
-                            ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
-                            : "border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-neutral-900"
-                    }`}
+                    className={`rounded-full border px-4 py-2 text-sm font-medium transition ${selectedCategoryId === null
+                            ? "border-pink-600 bg-pink-600 text-white dark:border-pink-300 dark:bg-pink-300 dark:text-black"
+                            : "border-gray-200 hover:bg-pink-50 dark:border-pink-800 dark:hover:bg-pink-950/10"
+                        }`}
                 >
                     All
                 </button>
@@ -39,11 +38,10 @@ export default function Categories() {
                         key={cat.id}
                         type="button"
                         onClick={() => dispatch(setSelectedCategory(cat.id))}
-                        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
-                            selectedCategoryId === cat.id
-                                ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
-                                : "border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-neutral-900"
-                        }`}
+                        className={`rounded-full border px-4 py-2 text-sm font-medium transition ${selectedCategoryId === cat.id
+                                ? "border-pink-600 bg-pink-600 text-white dark:border-pink-300 dark:bg-pink-300 dark:text-black"
+                                : "border-gray-200 hover:bg-pink-50 dark:border-pink-800 dark:hover:bg-pink-950/10"
+                            }`}
                     >
                         {cat.name}
                     </button>

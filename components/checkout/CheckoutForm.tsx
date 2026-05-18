@@ -79,7 +79,7 @@ export default function CheckoutForm() {
 
     if (paymentStatus === "success") {
         return (
-            <section className="rounded-lg border border-emerald-200 bg-emerald-50 p-6 text-emerald-950 dark:border-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+            <section className="rounded-lg border border-pink-200 bg-pink-50 p-6 text-pink-950 dark:border-pink-900 dark:bg-pink-950/30 dark:text-pink-100">
                 <p className="text-sm font-semibold uppercase tracking-wide">
                     Payment approved
                 </p>
@@ -187,7 +187,7 @@ export default function CheckoutForm() {
             <button
                 type="submit"
                 disabled={paymentStatus === "processing"}
-                className="mt-6 inline-flex w-full justify-center rounded-md bg-black px-4 py-3 text-sm font-semibold text-white hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                className="mt-6 inline-flex w-full justify-center rounded-md bg-pink-600 px-4 py-3 text-sm font-semibold text-white hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-pink-200 dark:text-black dark:hover:bg-pink-300"
             >
                 {paymentStatus === "processing" ? "Processing payment..." : "Pay now"}
             </button>

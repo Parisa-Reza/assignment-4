@@ -2,12 +2,20 @@ import type { Product } from "@/store/product-slice";
 
 export function getProductImage(product: Product): string {
     const [firstImage] = product.images ?? [];
+    const rawImage = firstImage ?? "https://placehold.co/640x480?text=Product";
+    const cleaned = rawImage.replaceAll("[", "").replaceAll("]", "").replaceAll('"', "");
 
-    if (!firstImage) {
-        return "https://placehold.co/640x480?text=Product";
+    try {
+        const url = new URL(cleaned);
+
+        if (url.hostname === "placehold.co" && !url.pathname.match(/\.[a-zA-Z0-9]+$/)) {
+            url.pathname = `${url.pathname}.png`;
+        }
+
+        return url.toString();
+    } catch {
+        return cleaned;
     }
-
-    return firstImage.replaceAll("[", "").replaceAll("]", "").replaceAll('"', "");
 }
 
 

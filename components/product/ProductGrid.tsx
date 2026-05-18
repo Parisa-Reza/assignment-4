@@ -45,9 +45,9 @@ export default function ProductGrid() {
 
     if (isSearching) {
       return searchItems.filter((product) =>
-          `${product.title} ${product.category?.name ?? ""}`
-            .toLowerCase()
-            .includes(query),
+        `${product.title} ${product.category?.name ?? ""}`
+          .toLowerCase()
+          .includes(query),
       );
     }
 
@@ -109,10 +109,10 @@ export default function ProductGrid() {
               isSearching
                 ? dispatch(fetchSearchProducts())
                 : dispatch(
-                    fetchProducts({ page, limit, categoryId: selectedCategoryId }),
-                  )
+                  fetchProducts({ page, limit, categoryId: selectedCategoryId }),
+                )
             }
-            className="mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white"
+            className="mt-4 rounded-md bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700"
           >
             Try again
           </button>
@@ -139,27 +139,27 @@ export default function ProductGrid() {
       )}
 
       {!isSearching && (
-      <div className="mt-8 flex items-center justify-center gap-3">
-        <button
-          type="button"
-          disabled={page === 1 || loading}
-          onClick={() => dispatch(setPage(page - 1))}
-          className="rounded-md border border-gray-200 px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-800"
-        >
-          Previous
-        </button>
-        <span className="rounded-md bg-gray-400 px-4 py-2 text-sm font-semibold text-gray-950 dark:bg-gray-200 dark:text-gray-950">
-          {page}
-        </span>
-        <button
-          type="button"
-          disabled={!hasNextPage || loading}
-          onClick={() => dispatch(setPage(page + 1))}
-          className="rounded-md border border-gray-200 px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-800"
-        >
-          Next
-        </button>
-      </div>
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            disabled={page === 1 || loading}
+            onClick={() => dispatch(setPage(page - 1))}
+            className="rounded-md border border-pink-600 bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-50 dark:border-pink-300 dark:bg-pink-300 dark:text-black dark:hover:bg-pink-400"
+          >
+            Previous
+          </button>
+          <span className="rounded-md bg-pink-600 px-4 py-2 text-sm font-semibold text-white dark:bg-pink-300 dark:text-black ">
+            {page}
+          </span>
+          <button
+            type="button"
+            disabled={!hasNextPage || loading}
+            onClick={() => dispatch(setPage(page + 1))}
+            className="rounded-md border border-pink-600 bg-pink-600 px-4 py-2 text-sm font-medium text-white hover:bg-pink-700 disabled:cursor-not-allowed disabled:opacity-50 dark:border-pink-300 dark:bg-pink-300 dark:text-black dark:hover:bg-pink-400"
+          >
+            Next
+          </button>
+        </div>
       )}
     </section>
   );

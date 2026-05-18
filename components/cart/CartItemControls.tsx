@@ -31,7 +31,7 @@ export default function CartItemControls({ item }: CartItemControlsProps) {
                     }
                     className="grid h-10 w-10 place-items-center hover:bg-gray-100 dark:hover:bg-neutral-900"
                 >
-                    <FaMinus className="text-xs" aria-hidden="true" />
+                    <FaMinus className="text-pink-600 dark:text-pink-200 text-xs" aria-hidden="true" />
                 </button>
                 <input
                     aria-label={`Quantity for ${item.title}`}
@@ -62,16 +62,16 @@ export default function CartItemControls({ item }: CartItemControlsProps) {
                     }
                     className="grid h-10 w-10 place-items-center hover:bg-gray-100 dark:hover:bg-neutral-900"
                 >
-                    <FaPlus className="text-xs" aria-hidden="true" />
+                    <FaPlus className="text-pink-600 dark:text-pink-200 text-xs" aria-hidden="true" />
                 </button>
             </div>
 
             <button
                 type="button"
                 onClick={() => dispatch(removeFromCart(item.id))}
-                className="inline-flex h-10 items-center gap-2 rounded-md border border-gray-200 px-3 text-sm font-medium text-red-600 hover:bg-red-50 dark:border-gray-800 dark:hover:bg-red-950/30"
+                className="inline-flex h-10 items-center gap-2 rounded-md border border-gray-200 px-3 text-sm font-medium text-pink-600 hover:bg-red-50 dark:border-gray-800 dark:text-pink-200 dark:hover:bg-red-950/30"
             >
-                <FaTrash aria-hidden="true" />
+                <FaTrash className="text-pink-600 dark:text-pink-200" aria-hidden="true" />
                 Remove
             </button>
         </div>
