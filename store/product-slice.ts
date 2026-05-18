@@ -7,7 +7,7 @@ export type Product = {
     description?: string;
     category?: Category;
     images: string[];
- 
+
 };
 
 export type Category = {
@@ -64,7 +64,7 @@ const initialState: ProductState = {
     categoriesError: null,
 };
 
-const API_BASE_URL = "https://api.escuelajs.co/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 async function getJson<T>(url: string): Promise<T> {
     const res = await fetch(url);

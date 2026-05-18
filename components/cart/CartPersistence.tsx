@@ -25,8 +25,9 @@ function isSavedCart(value: unknown): value is CartItem[] {
 export default function CartPersistence() {
     const dispatch = useAppDispatch();
     const items = useAppSelector((state) => state.cart.items);
-    const hasLoadedSavedCart = useRef(false);
+    const hasLoadedSavedCart = useRef(false); //acts like a flag
 
+    // On page load
     useEffect(() => {
         const savedCart = window.localStorage.getItem(CART_STORAGE_KEY);
 
@@ -40,11 +41,13 @@ export default function CartPersistence() {
             } catch {
                 window.localStorage.removeItem(CART_STORAGE_KEY);
             }
+
         }
 
         hasLoadedSavedCart.current = true;
     }, [dispatch]);
 
+    // On cart change
     useEffect(() => {
         if (!hasLoadedSavedCart.current) {
             return;
