@@ -274,8 +274,7 @@ As a result, users were seeing incomplete and inconsistent filtered outputs acro
 
 
 - **Localhost vs Netlify**
-- 
- /cart and /checkout routes were protected by server-side middleware (proxy.ts) that checked for a cookie — but  auth lived in localStorage + Redux (client-side). On Netlify, the middleware ran before React loaded, saw no cookie, and redirected you to /login even though you were already logged in. This caused an infinite redirect loop in production but worked fine on localhost.
+-  /cart and /checkout routes were protected by server-side middleware (proxy.ts) that checked for a cookie — but  auth lived in localStorage + Redux (client-side). On Netlify, the middleware ran before React loaded, saw no cookie, and redirected you to /login even though you were already logged in. This caused an infinite redirect loop in production but worked fine on localhost.
 Solution
 Removed the server middleware entirely. Added a client-side RequireAuth component that waits for Redux to finish restoring auth from localStorage , then decides to either show the page or redirect to login. 
 
