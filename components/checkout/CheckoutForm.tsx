@@ -2,7 +2,8 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
-import { checkoutSchema, type CheckoutFormValues } from "@/lib/checkout-schema";
+import { useRouter } from "next/navigation";
+import { checkoutSchema, type CheckoutFormValues } from "@/lib/zod-scemas/checkout-schema";
 import { formatCurrency, getCartTotal } from "@/lib/cart-utils";
 import { clearCart } from "@/store/cart-slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -22,7 +23,11 @@ const initialValues: CheckoutFormValues = {
 
 export default function CheckoutForm() {
     const dispatch = useAppDispatch();
+    const router = useRouter();
     const items = useAppSelector((state) => state.cart.items);
+    const isAuthenticated = useAppSelector(
+        (state) => state.auth.status === "authenticated" && Boolean(state.auth.user)
+    );
     const totals = useMemo(() => getCartTotal(items), [items]);
     const [values, setValues] = useState<CheckoutFormValues>(initialValues);
     const [errors, setErrors] = useState<FormErrors>({});
@@ -44,6 +49,11 @@ export default function CheckoutForm() {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        if (!isAuthenticated) {
+            router.push("/login?redirect=/checkout");
+            return;
+        }
 
         if (!items.length) {
             setPaymentStatus("failed");
@@ -181,6 +191,12 @@ export default function CheckoutForm() {
             {paymentStatus === "failed" && (
                 <p className="mt-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
                     Add at least one item to your cart before checkout.
+                </p>
+            )}
+
+            {!isAuthenticated && (
+                <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+                    Please log in before completing checkout.
                 </p>
             )}
 
