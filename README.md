@@ -272,6 +272,11 @@ Pagination was implemented to show 10 products per page, but filtering logic was
 This caused incorrect results because search/filter did not consider the full product dataset.
 As a result, users were seeing incomplete and inconsistent filtered outputs across pages.
 
+
+**Localhost vs hosting environment**
+Login is behaving differently on local host and netlify .
+
+
 ---
 
 ## 🔭 Future Improvements
