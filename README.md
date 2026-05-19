@@ -224,18 +224,18 @@ All shared application state is managed with **Redux Toolkit (RTK)**. The store 
 
 ## ⚖️ Tradeoffs Made
 
-**Redux Toolkit over React Context**
+- **Redux Toolkit over React Context**
 Redux Toolkit is preferred over React Context for complex apps because it provides structured state management with built-in async handling, better performance (avoids unnecessary re-renders), and powerful debugging tools like Redux DevTools.
 
-**No database / backend**
+- **No database / backend**
 All data comes from the Platzi Fake Store API. The mock payment flow cannot process real transactions. In production, a real payment gateway (e.g. Stripe) and order persistence layer would be required.
 
-**localStorage for session persistence**
+- **localStorage for session persistence**
 Simple and universally supported, but it means sessions are not shared across devices and are vulnerable to XSS. An HttpOnly cookie-based approach would be more secure in production.
 
 
 
-**Pagination over infinite scroll**
+- **Pagination over infinite scroll**
 Pagination was implemented instead of infinite scroll for simplicity and accessibility. Infinite scroll would provide a smoother UX but complicates scroll restoration and screen reader support.
 
 ---
@@ -254,27 +254,30 @@ It also makes UI faster and more responsive by loading data in smaller, manageab
 
 ## 🧩 Challenges Faced
 
-**Server vs. Client component boundaries**
+- **Server vs. Client component boundaries**
 Deciding where to place the `"use client"` directive was the most nuanced challenge. Components that use Redux, `useState`, or browser APIs must be client components, while data-fetching and SEO-critical markup benefits from staying on the server. 
 
-**Cherry picking commits**
+- **Cherry picking commits**
 Made 3 commits while being on  detached HEAD state
 Then ran git checkout main, git switched branches, but those commits were not reachable from main. Then ran git cherry-pick commit ids in order (oldest to newest).
 
 
-**Server vs Client Environment Variables**
+- **Server vs Client Environment Variables**
 API_BASE_URL is server-only and cannot be accessed in the browser, making it safe for sensitive data.
 NEXT_PUBLIC_API_BASE_URL is exposed to both server and client, so it can be used in frontend code.
 Anything with NEXT_PUBLIC_ is public and visible in the browser bundle.
 
-**Searching for products**
+- **Searching for products**
 Pagination was implemented to show 10 products per page, but filtering logic was applied only on the currently loaded page data.
 This caused incorrect results because search/filter did not consider the full product dataset.
 As a result, users were seeing incomplete and inconsistent filtered outputs across pages.
 
 
-**Localhost vs hosting environment**
-Login is behaving differently on local host and netlify .
+- **Localhost vs Netlify**
+- 
+ /cart and /checkout routes were protected by server-side middleware (proxy.ts) that checked for a cookie — but  auth lived in localStorage + Redux (client-side). On Netlify, the middleware ran before React loaded, saw no cookie, and redirected you to /login even though you were already logged in. This caused an infinite redirect loop in production but worked fine on localhost.
+Solution
+Removed the server middleware entirely. Added a client-side RequireAuth component that waits for Redux to finish restoring auth from localStorage , then decides to either show the page or redirect to login. 
 
 
 ---
