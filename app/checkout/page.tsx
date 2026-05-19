@@ -1,3 +1,4 @@
+import RequireAuth from "@/components/auth/RequireAuth";
 import CartSummary from "@/components/cart/CartSummary";
 import CheckoutForm from "@/components/checkout/CheckoutForm";
 
@@ -8,9 +9,11 @@ export const metadata = {
 
 export default function CheckoutPage() {
     return (
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[1fr_360px]">
-            <CheckoutForm />
-            <CartSummary showCheckoutLink={false} />
-        </div>
+        <RequireAuth>
+            <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[1fr_360px]">
+                <CheckoutForm />
+                <CartSummary showCheckoutLink={false} />
+            </div>
+        </RequireAuth>
     );
 }

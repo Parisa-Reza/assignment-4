@@ -1,4 +1,3 @@
-
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
@@ -48,7 +47,6 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
     useEffect(() => {
         dispatch(clearAuthError());
-        setFieldErrors({});
     }, [dispatch, mode]);
 
     useEffect(() => {
