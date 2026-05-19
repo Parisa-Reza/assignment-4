@@ -6,7 +6,7 @@ A full-featured e-commerce storefront built with Next.js 16 App Router, TypeScri
 
 ## Deployment URL
 
-> **Live Demo:** [https://your-deployment-url.vercel.app](https://assignment-kenakata.netlify.app/)
+> **Live Demo:** [https://assignment-kenakata.netlify.app/](https://assignment-kenakata.netlify.app/)
 
 ---
 
