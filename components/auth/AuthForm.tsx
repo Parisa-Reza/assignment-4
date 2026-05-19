@@ -1,8 +1,10 @@
+
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { loginSchema, signupSchema, type FieldErrors } from "@/lib/zod-scemas/auth-schema";
 import {
     clearAuthError,
     loginUser,
@@ -36,7 +38,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [avatar, setAvatar] = useState(defaultAvatar);
-    const [formError, setFormError] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
     const isSignup = mode === "signup";
     const isLoading = status === "loading";
     const redirectTo = useMemo(
@@ -46,6 +48,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
     useEffect(() => {
         dispatch(clearAuthError());
+        setFieldErrors({});
     }, [dispatch, mode]);
 
     useEffect(() => {
@@ -57,12 +60,25 @@ export default function AuthForm({ mode }: AuthFormProps) {
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!email.trim() || !password.trim() || (isSignup && !name.trim())) {
-            setFormError("Please fill in all required fields.");
+        const raw = isSignup
+            ? { name, email, password, avatar }
+            : { email, password };
+
+        const result = isSignup
+            ? signupSchema.safeParse(raw)
+            : loginSchema.safeParse(raw);
+
+        if (!result.success) {
+            const errors: FieldErrors = {};
+            for (const issue of result.error.issues) {
+                const key = issue.path[0] as keyof FieldErrors;
+                if (!errors[key]) errors[key] = issue.message;
+            }
+            setFieldErrors(errors);
             return;
         }
 
-        setFormError(null);
+        setFieldErrors({});
 
         if (isSignup) {
             const payload: RegisterCredentials = {
@@ -107,6 +123,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                             value={name}
                             onChange={setName}
                             autoComplete="name"
+                            error={fieldErrors.name}
                         />
                     )}
                     <Field
@@ -115,6 +132,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                         value={email}
                         onChange={setEmail}
                         autoComplete="email"
+                        error={fieldErrors.email}
                     />
                     <Field
                         label="Password"
@@ -122,6 +140,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
                         value={password}
                         onChange={setPassword}
                         autoComplete={isSignup ? "new-password" : "current-password"}
+                        error={fieldErrors.password}
                     />
                     {isSignup && (
                         <Field
@@ -130,13 +149,14 @@ export default function AuthForm({ mode }: AuthFormProps) {
                             value={avatar}
                             onChange={setAvatar}
                             autoComplete="url"
+                            error={fieldErrors.avatar}
                         />
                     )}
                 </div>
 
-                {(formError || error) && (
+                {error && (
                     <p className="mt-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
-                        {formError || error}
+                        {error}
                     </p>
                 )}
 
@@ -150,8 +170,8 @@ export default function AuthForm({ mode }: AuthFormProps) {
                             ? "Creating account..."
                             : "Logging in..."
                         : isSignup
-                          ? "Sign up"
-                          : "Log in"}
+                            ? "Sign up"
+                            : "Log in"}
                 </button>
 
                 <p className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
@@ -173,6 +193,7 @@ type FieldProps = {
     value: string;
     type?: string;
     autoComplete?: string;
+    error?: string;
     onChange: (value: string) => void;
 };
 
@@ -181,6 +202,7 @@ function Field({
     value,
     type = "text",
     autoComplete,
+    error,
     onChange,
 }: FieldProps) {
     return (
@@ -191,8 +213,17 @@ function Field({
                 value={value}
                 autoComplete={autoComplete}
                 onChange={(event) => onChange(event.target.value)}
-                className="h-11 rounded-md border border-gray-200 px-3 outline-none focus:border-black dark:border-gray-800 dark:bg-neutral-950 dark:focus:border-white"
+                aria-invalid={!!error}
+                className={`h-11 rounded-md border px-3 outline-none transition-colors
+                    ${error
+                        ? "border-red-400 focus:border-red-500 dark:border-red-600 dark:focus:border-red-400"
+                        : "border-gray-200 focus:border-black dark:border-gray-800 dark:focus:border-white"
+                    }
+                    dark:bg-neutral-950`}
             />
+            {error && (
+                <span className="text-xs text-red-600 dark:text-red-400">{error}</span>
+            )}
         </label>
     );
 }

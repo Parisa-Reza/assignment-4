@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const API_BASE_URL = "https://api.escuelajs.co/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export type AuthTokens = {
     access_token: string;

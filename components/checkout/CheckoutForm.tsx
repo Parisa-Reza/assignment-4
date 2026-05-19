@@ -3,7 +3,7 @@
 import { FormEvent, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { checkoutSchema, type CheckoutFormValues } from "@/lib/checkout-schema";
+import { checkoutSchema, type CheckoutFormValues } from "@/lib/zod-scemas/checkout-schema";
 import { formatCurrency, getCartTotal } from "@/lib/cart-utils";
 import { clearCart } from "@/store/cart-slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";

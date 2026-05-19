@@ -8,7 +8,8 @@ import type { Product } from "@/store/product-slice";
 
 export const revalidate = 300;
 
-const API_BASE_URL = "https://api.escuelajs.co/api/v1";
+// const API_BASE_URL = "https://api.escuelajs.co/api/v1";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 type ProductPageProps = {
     params: Promise<{
@@ -45,7 +46,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
 export default async function ProductDetailsPage({ params }: ProductPageProps) {
     const { id } = await params;
     const product = await getProduct(id);
- 
+
 
     return (
         <main className="mx-auto max-w-6xl px-4 py-10">
