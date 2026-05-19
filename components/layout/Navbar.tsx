@@ -2,15 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { getCartItemCount } from "@/lib/cart-utils";
+import { logout } from "@/store/auth-slice";
 import { toggleTheme, setSearchQuery } from "@/store/ui-slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 
 export default function Navbar() {
     const dispatch = useAppDispatch();
+    const pathname = usePathname();
+    const router = useRouter();
     const theme = useAppSelector((state) => state.ui.theme);
     const searchQuery = useAppSelector((state) => state.ui.searchQuery);
+    const { user, status } = useAppSelector((state) => state.auth);
+    const isAuthenticated = status === "authenticated" && Boolean(user);
     const cartItemCount = useAppSelector((state) =>
         getCartItemCount(state.cart.items)
     );
@@ -24,6 +30,14 @@ export default function Navbar() {
 
         return () => window.clearTimeout(timeoutId);
     }, [dispatch, searchText]);
+
+    const handleLogout = () => {
+        dispatch(logout());
+
+        if (pathname.startsWith("/cart") || pathname.startsWith("/checkout")) {
+            router.push(`/login?redirect=${encodeURIComponent(pathname)}`);
+        }
+    };
 
     return (
         <nav className="border-b border-gray-200  px-4 py-4 backdrop-blur dark:border-gray-800 dark:bg-black/80">
@@ -70,12 +84,35 @@ export default function Navbar() {
                     >
                         {theme === "light" ? "🌙" : "☀️"}
                     </button>
-                    <button className="rounded-md border border-pink-600 px-3 py-2 text-sm text-pink-600 hover:bg-pink-50 dark:border-pink-400 dark:text-pink-200 dark:hover:bg-pink-950/20">
-                        Login
-                    </button>
-                    <button className="rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white hover:bg-pink-700 dark:bg-pink-200 dark:text-black dark:hover:bg-pink-300">
-                        Signup
-                    </button>
+                    {isAuthenticated ? (
+                        <>
+                            <span className="hidden max-w-32 truncate text-sm font-medium text-gray-600 dark:text-gray-300 sm:inline">
+                                {user?.name}
+                            </span>
+                            <button
+                                type="button"
+                                onClick={handleLogout}
+                                className="rounded-md border border-pink-600 px-3 py-2 text-sm text-pink-600 hover:bg-pink-50 dark:border-pink-400 dark:text-pink-200 dark:hover:bg-pink-950/20"
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                href="/login"
+                                className="rounded-md border border-pink-600 px-3 py-2 text-sm text-pink-600 hover:bg-pink-50 dark:border-pink-400 dark:text-pink-200 dark:hover:bg-pink-950/20"
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                href="/signup"
+                                className="rounded-md bg-pink-600 px-3 py-2 text-sm font-semibold text-white hover:bg-pink-700 dark:bg-pink-200 dark:text-black dark:hover:bg-pink-300"
+                            >
+                                Signup
+                            </Link>
+                        </>
+                    )}
                 </div>
             </div>
         </nav>

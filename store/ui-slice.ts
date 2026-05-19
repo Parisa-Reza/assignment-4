@@ -1,7 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+export type Theme = "light" | "dark";
 
 type UIState = {
-  theme: "light" | "dark";
+  theme: Theme;
   searchQuery: string;
 };
 
@@ -17,11 +19,14 @@ const uiSlice = createSlice({
     toggleTheme(state) {
       state.theme = state.theme === "light" ? "dark" : "light";
     },
-    setSearchQuery(state, action) {
+    setTheme(state, action: PayloadAction<Theme>) {
+      state.theme = action.payload;
+    },
+    setSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload;
     },
   },
 });
 
-export const { toggleTheme, setSearchQuery } = uiSlice.actions;
+export const { toggleTheme, setTheme, setSearchQuery } = uiSlice.actions;
 export default uiSlice.reducer;
